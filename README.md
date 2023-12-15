@@ -367,6 +367,7 @@ Now that we have completed most of our tasks, it's time for some cleanup. Let's 
 - When a task is deleted the `updateCounters()` function updates showing the new number of remaining tasks.  Once the task is removed and no longer counts as completed or uncompleted.
 
 Let's see how it works: 
+
 ![alt text](/assets/images/delete-task.gif "Delete Task")
 
 ## Task 4: Add CSS
