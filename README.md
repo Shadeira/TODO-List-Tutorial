@@ -10,7 +10,7 @@ Here are the following tasks you will need to complete:
 * Read Tasks
 * Update Tasks
 * Delete Tasks
-* Count Number of Complete and Uncomplete Tasks
+* Count Number of Complete and Incomplete Tasks
 
 
 The final project should look similar to this: 
@@ -38,7 +38,7 @@ touch index.html script.js styles.css
 
 Now, let's see what we have created. Open VS Code and navigate to the top left corner. Click on "File" from the dropdown menu, choose "Open Folder". Proceed to locate and open the **todo-list-project** folder on your Desktop.
 
-Once you have open this folder on VS Code. Within this folder, you will see the necessary files we created to build out your application.
+Once you have opened this folder on VS Code. Within this folder, you will see the necessary files we created to build out your application:
 
 ![alt text](/assets/images/vs-code-screen.png "VS Code Screenshot")
 
@@ -122,7 +122,7 @@ Now, let’s take a look at our app in the browser. It should look something lik
 
 The button won’t work just yet. But don’t worry, we’ll get there!
 
-## Task 2: Add Counter
+## Task 2: Add Counters
 
 Let's say we want to be able to calculate the number of task we have completed and the ones we have yet to get done. Let's make tracking our progress a bit simpler with counters for completed and uncompleted tasks.
 
@@ -138,10 +138,12 @@ Below your `<ul>` list container, add these lines of code:
       </div>
 
 ```
-**Note:** We added an `<hr />` tag (horizontal line), to create a separation between our list items and the task counters. This way, everything stays organized. 
+**Note:** We added an `<hr />` tag (horizontal line), to create a separation between our list items and the task counters. We then created a `<div>` for the number of complete and incomplete tasks. 
 
-Your application should now look like this: 
 
+Your updated todo list should look like this: 
+
+![alt text](/assets/images/updated-todo.png "Todo list with counter")
 
 Let's take the next steps to activate our button, counter and add our first task to the list.
 
@@ -203,6 +205,7 @@ listContainer.appendChild(li);
 ```
 
 Open up your application inside your browser and test it out!
+
 ![alt text](/assets/images/add-task.gif "Add Task")
 
 Great job! You've successfully added your first task.
@@ -277,15 +280,218 @@ Imagine this: one of our tasks, checked off as complete, but suddenly we're have
 ```js
     li.classList.remove("completed");
 ```
+Once a task is edited after being marked "complete", it will remove the styling of `"completed"` and uncheck the task. 
+
+## Update Task Counters
+
+Let's take it a step further! Remember those task counters be added in our **index.html** file. We're about to make those counters update dynamically every time a task gets added, checked off, edited, or deleted.
+
+First let's create variables for our complete and incomplete task. This code will be in your **script.js** file below your `listContainer` variable: 
+
+```js
+const completedCounter = document.getElementById("completed-counter");
+const uncompletedCounter = document.getElementById("uncompleted-counter");
+```
+
+Next, we will create a function for the counters. Whenever anything changes with our task, we will update it with this `updateCounters()` function: 
+
+```js
+function updateCounters() {
+  const completedTasks = document.querySelectorAll(".completed").length;
+  const uncompletedTasks = document.querySelectorAll("li:not(.completed)").length;
+
+  completedCounter.textContent = completedTasks;
+  uncompletedCounter.textContent = uncompletedTasks;
+}
+```
+ 
+- `document.querySelectorAll(".completed")` selects all elements with the `"completed"` class. The `.length` property is then used to count the number of elements with this class, representing the number of completed tasks.
+- Next, `document.querySelectorAll("li:not(.completed)")` is used to select all `<li>` elements that do not have the `"completed"` class. The `.length` property is then used to count the number of uncompleted tasks.
+- The text content update the `completedCounter` and `uncompletedCounter` elements in our **index.html** file to display the counts of completed and incompleted tasks, respectively.
+
+
+
+When we first add a task we want the `updateCounters()` function to update.Let's make sure to include this code at the end of our code: 
+
+```js
+updateCounters();
+```
+
+Now let's test out `updateCounters()` function on our checkbox.
+
+When we check off a task, it is marked as "complete". But we want to mark it back as "incomplete" after we edit it. Below, we will have to add the `updateCounters()` function here: 
+
+```js  
+ checkbox.addEventListener("click", function () {
+      li.classList.toggle("completed", checkbox.checked);
+      //add the function below 
+          updateCounters();
+        });
+```
+
+Now for our edit button we need to set `checkbox.checked` to `false` to uncheck the box and update the counter:
+
+```js
+ editBtn.addEventListener("click", function () {
+   const update = prompt("Edit task:", taskSpan.textContent);
+   if (update !== null) {
+     taskSpan.textContent = update;
+     li.classList.remove("completed");
+     //add the code below 
+     checkbox.checked = false;
+     updateCounters();
+   }
+ });
+```
+
+Whoa, that was a lot! Now, let's open up our todo list in the browser again. It's time to test it out before we move on:
+
+![alt text](/assets/images/update-counter.gif "Update Counter")
+
+How did it go? If it well, let's move on! If not, try going through the **Update Task Counters** section again. 
+
 ### Delete Button
+
+Now that we have completed most of our tasks, it's time for some cleanup. Let's delete the ones that are no longer useful lets delete them if they no longer useful: 
  
 ```js
  deleteBtn.addEventListener("click", function () {
    if (confirm("Are you sure you want to delete this task?")) {
      li.remove();
+    updateCounters();
    }
  });
 ```
-As you can see above we also want to remove the task. If the task is not marked as completed you can delete it or keep it unchecked. When you go to delete the task an alert message will appear confirming if you want to delete the following task.
+- As you can see above when you go to delete the task an alert message will appear confirming if you want to delete the following task.
+- If the answer is yes it will proceed to the next line of code and delete the task with `remove()` method.
+- When a task is deleted the `updateCounters()` function updates showing the new number of remaining tasks.  Once the task is removed and no longer counts as completed or uncompleted.
 
-If the answer is yes it will proceed to the next line of code and delete the task with `remove()` method.
+Let's see how it works: 
+![alt text](/assets/images/delete-task.gif "Delete Task")
+
+## Task 4: Add CSS
+
+Lastly, it's time to give our to-do list a makeover! We've completed some of the toughest tasks, and now, let's have some fun playing around with styling. Let's add that finishing touch to make our to-do list look as good as it works!
+
+Here, we start with some high-level styling. In our `body` tag we give our app a gradient background [check out this link](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/radial-gradient) to learn more about radial-gradient color and give a font style. We also style our text to be in the center of the screen with a `margin-top`:
+
+```css
+body { 
+  background: rgb(0,0,0);
+  background: radial-gradient(circle, rgba(0,0,0,0.028124999999999956) 0%, rgba(253,187,45,1) 100%);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 50px;
+}
+```
+Now let’s work on the container of our todo list. For our `<div id="todo-container">`, we are giving the background a different color from the body and adding a border around the container: 
+
+```css
+#todo-container {
+  background: rgb(41, 33, 33);
+  width: 400px;
+  margin: 0 auto;
+  border: 2px solid #0033ff;
+  padding: 20px;
+  color: white;
+  border-radius: 15px;
+}
+```
+
+Inside of the container will style our header, input box, and input button:
+. 
+```css
+#header {
+  margin: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px; 
+}
+
+#input-box {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-size: 20px;
+}
+
+#input-button {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.4s;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2e60ea;
+}
+
+#input-button:hover {
+  background-color: #9eb7fd; 
+}
+```
+
+Next, for our task items and button:
+- Remove the bullet styling from the unordered list.
+- Add a border to each new item added to the list. 
+- Float the edit and delete button to the right and change the color to crimson. When we hover over each button the cursor changes to a pointer to let us know it's clickable. 
+
+```css
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  text-align:left;
+
+}
+
+li {
+border: 1px solid white;
+border-radius: 5px;
+margin-bottom: 10px;
+padding: 10px;
+margin-top: 10px;
+}
+
+.edit-btn, .delete-btn {
+  float: right;
+  color:crimson;
+  cursor: pointer;
+  margin: 3px 5px;
+  border: none;
+  padding: 3px 5px;
+  background: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+  border: 1px solid gray;
+
+} 
+```
+
+Now, let's check out our completed application:
+
+![alt text](/assets/images/completed-todo.gif "Completed ToDo")
+
+## Conclusion
+
+Congratulations! 🎊
+You did it!
+
+In this tutorial, we learned to build a simple todo application using JavaScript. We were able to add, complete, edit, and delete tasks.
+
+Challenge yourself to add more advanced features to your todo application. Here is a list  of possible features to give you a few ideas:
+
+- Sign-in and Sign-up
+- Save user history when signed in or save to local storage.
+- Date and time task was added.
+- Delete all items.
+- A trash page of deleted items.
+- Success notifications for completed, edited and deleted task. 
+- Show completed tasks, all tasks, active tasks.
