@@ -1,9 +1,10 @@
 # Create a To-Do List App with HTML, CSS, & Javascript
 
-## Introduction 
+## Introduction
+
 Tired of your "to-do" list looking more like a "to-don't" list? Today's the day we flip the script! We're turning your to-dos into to-dones!
 
-Follow along with this tutorial as we work together to check off every incomplete task on our to-do list using HTML,CSS, and JavaScript. By the end of the tutorial you’ll be able to ADD, DELETE, EDIT, and most importantly COMPLETE tasks. 
+Follow along with this tutorial as we work together to check off every incomplete task on our to-do list using HTML, CSS, and JavaScript. By the end of the tutorial, you’ll be able to ADD, DELETE, EDIT, and most importantly COMPLETE tasks. 
 
 Here are the following features you will need to complete:
 * Add Tasks
@@ -20,11 +21,12 @@ The final project should look similar to this:
 Let's do this!
 
 ## Getting Started
+
 Let’s set up our editor. For this application, we will be using our PC terminal and Visual Studio Code (VS Code).
 
 If you don't have VS Code downloaded, you can [download it here](https://code.visualstudio.com/download).
 
-**Note:** If you prefer to use an online editor such as Repl.it you are more than welcome to do so.
+**Note:** If you prefer to use an online editor such as [Codédex Builds](https://www.codedex.io/editor/html-css), you are more than welcome to do so.
 
 
 First, we need to create a directory and files for our project using the terminal. Once you open the terminal `cd` into your Desktop. This is where we will add our directory. You can name it anything you like but to make it easier let's name it **todo-list-project**:
@@ -36,7 +38,7 @@ cd todo-list-project
 touch index.html script.js styles.css
 ```
 
-Now, let's see what we have created. Open VS Code and navigate to the top left corner. Click on "File" from the dropdown menu, choose "Open Folder". Proceed to locate and open the **todo-list-project** folder on your Desktop.
+Now, let's see what we have created. Open VS Code and navigate to the top left corner. Click on "File" from the dropdown menu, and choose "Open Folder". Proceed to locate and open the **todo-list-project** folder on your Desktop.
 
 Once you have opened this folder on VS Code. Within this folder, you will see the necessary files we created to build out your application:
 
@@ -49,11 +51,13 @@ The following files have been created in our **todo-list-project** folder:
 
 
 ## Task 1: Create TODO List Input
+
 In our **index.html** file we have included a `title` and `link` tag inside of the `head`. For the title we set the name of the app to **TO-DO List**. We also linked the `style.css` file because, trust, styling is gonna make it look super cool later. 
 
-Toward the end of our code we need to include our `script` tag. This will link our JS file where we will create variables and functions that will make everything work just right.
+Towards the end of our code, we need to include our `script` tag. This will link our JS file where we will create variables and functions that will make everything work just right.
 
-Let's check this out: 
+Let's check this out:
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +73,7 @@ Let's check this out:
 ```
 
 Now, let's create a text `input` box for typing in all those todo tasks, including an "Add" button:
+
 ```html
 <!--index.html-->
 <!DOCTYPE html>
@@ -127,6 +132,7 @@ The button won’t work just yet. But don’t worry, we’ll get there!
 Let's say we want to be able to calculate the number of tasks we have completed and the ones we have yet to get done. Let's make tracking our progress a bit simpler with counters for completed and uncompleted tasks.
 
 Below your `<ul>` list container, add these lines of code: 
+
 ```html
  <hr />
      <!-- task list counter  -->
@@ -138,6 +144,7 @@ Below your `<ul>` list container, add these lines of code:
       </div>
 
 ```
+
 **Note:** We added an `<hr />` tag (horizontal line), to create a separation between our list items and the task counters. We then created a `<div>` for the number of complete and incomplete tasks. 
 
 
@@ -145,7 +152,7 @@ Your updated todo list should look like this:
 
 ![alt text](/assets/images/updated-todo.png "Todo list with counter")
 
-Let's take the next steps to activate our buttons, counter and add our first task to the list.
+Let's take the next steps to activate our buttons and counter, and add our first task to the list.
 
 ## Task 3: Add JavaScript
 
@@ -191,6 +198,7 @@ li.innerHTML = `
 `;
 
 ```
+
 The inner HTML of our new task item includes:
 
 - A checkbox-type `<input>`.
@@ -241,6 +249,7 @@ function addTask() {
 
 
 ## Task 4: Activate Task Buttons
+
 In the code provided above, we created an `input` for a checkbox and a `span` for our "Edit" and "Delete" buttons. Each task added to our list should allow us to manipulate it. Here's how each element functions:
 
 - Checkbox: When the checkbox next to a task is selected, it strikes a line through the task and changes its color to gray, marking it "complete".
@@ -259,6 +268,7 @@ const deleteBtn = li.querySelector(".delete-btn");
 **Note:** As you can see, we have a `taskSpan` variable that allows us to edit a specific task when the edit button is clicked.
 
 ### Checkbox
+
 ```js
 checkbox.addEventListener("click", function () {
     li.classList.toggle("completed", checkbox.checked);
@@ -292,7 +302,7 @@ Make sure to add this code to your **style.css** file:
  });
 ```
 
-In this code we attach an `.addEventListener()` method to our "Edit" button (editBtn). It responds to a click on the "Edit" button by executing the enclosed function.
+In this code, we attach an `.addEventListener()` method to our "Edit" button (editBtn). It responds to a click on the "Edit" button by executing the enclosed function.
 
 - We are using the prompt function to display a dialog box asking the user to input a new task. The default value in the prompt is set to the current content of “taskSpan”.
 - Then our if condition checks if the user has provided a new input. 
@@ -332,8 +342,6 @@ function updateCounters() {
 - Next, `document.querySelectorAll("li:not(.completed)")` is used to select all `<li>` elements that do not have the `"completed"` class. The `.length` property is then used to count the number of uncompleted tasks.
 - The text content update the `completedCounter` and `uncompletedCounter` elements in our **index.html** file to display the counts of completed and uncompleted tasks, respectively.
 
-
-
 When we first add a task we want the `updateCounters()` function to update. Let's make sure to include this code at the end of our code: 
 
 ```js
@@ -352,7 +360,7 @@ When we check off a task, it is marked as "complete". But we want to mark it bac
 });
 ```
 
-Now for our edit button we need to set `checkbox.checked` to `false` to uncheck the box and update the counter:
+Now for our edit button, we need to set `checkbox.checked` to `false` to uncheck the box and update the counter:
 
 ```js
  editBtn.addEventListener("click", function () {
@@ -385,6 +393,7 @@ Now that we have completed most of our tasks, it's time for some cleanup. Let's 
    }
  });
 ```
+
 - As you can see above, when you go to delete the task an alert message will appear confirming if you want to delete the following task.
 - If the answer is yes, it will proceed to the next line of code and delete the task with the `remove()` method.
 - When a task is deleted the `updateCounters()` function updates showing the new number of remaining tasks.  Once the task is removed and no longer counts as completed or uncompleted.
@@ -517,7 +526,7 @@ Challenge yourself to add more advanced features to your todo application. Here 
 - Date and time task was added.
 - Delete all items.
 - A trash page of deleted items.
-- Success notifications for completed, edited and deleted task. 
-- Show completed tasks, all tasks, active tasks.
+- Success notifications for completed, edited and deleted tasks. 
+- Show completed tasks, all tasks, and active tasks.
 
 More Resources:
